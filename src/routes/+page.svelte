@@ -25,7 +25,7 @@
 </a>
 <a class="flex flex-col justify-center items-center p-1 w-full h-full
 		bg-sky-100/60  rounded-2xl border-blue-900 shadow-lg
-		transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-sky-200" href="/">
+		transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-sky-200" href="/graph">
 <BarChart3 />
 <p>วิเคราะห์ข้อมูล</p>
 </a>
