@@ -59,7 +59,7 @@
 		const lastVisited = localStorage.getItem("lastVisitedLesson");
 
 		if (lastVisited) {
-			goto(lastViasited);
+			goto(lastVisited);
 		} else {
 			alert("ไม่พบหน้าที่เคยเยี่ยมชมล่าสุด");
 		}
@@ -85,16 +85,14 @@
 			>
 				รายการโปรด
 			</div>
-			<div
-				class="text-responsive flex flex-col justify-center items-center w-full h-full
-
-        bg-blue-200/70 rounded-xl border-blue-900 shadow-lg
-
-        transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-blue-200 cursor-pointer"
+			<button
+				class="text-responsive flex flex-col justify-center items-center w-full h-full 
+				bg-blue-200/70 rounded-xl border-blue-900 shadow-lg
+				transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-blue-200 cursor-pointer"
 				on:click={handleRecentActivityClick}
 			>
 				กิจกรรมล่าสุด
-			</div>
+			</button>
 			<div
 				class="text-responsive flex flex-col justify-center items-center w-full h-full
  
@@ -111,9 +109,9 @@
 	>
 		{#each lessons as lesson (lesson.path)}
 			<!-- เพิ่ม on:click ให้ LessonCard -->
-			<div on:click={() => handleLessonClick(lesson.path)}>
+			<button on:click={() => handleLessonClick(lesson.path)}>
 				<LessonCard {lesson} />
-			</div>
+			</button>
 		{/each}
 	</div>
 </div>

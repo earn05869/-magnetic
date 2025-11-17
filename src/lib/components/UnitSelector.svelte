@@ -86,7 +86,7 @@
 	class="relative w-20 font-sans border border-gray-300 rounded-lg overflow-hidden shadow-sm bg-white"
 >
 	<div class="flex items-center justify-between bg-blue-300 text-black">
-		<div class="flex-1 text-left pl-2 py-1 text-lg font-bold">
+		<div class="flex-1 text-left pl-2 py-1 text-md font-bold">
 			{combinedUnit}
 		</div>
 
@@ -102,7 +102,7 @@
 					fill="none"
 					viewBox="0 0 24 24"
 					stroke="currentColor"
-					stroke-width="3"
+					stroke-width="2"
 				>
 					<path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
 				</svg>
@@ -118,7 +118,7 @@
 					fill="none"
 					viewBox="0 0 24 24"
 					stroke="currentColor"
-					stroke-width="3"
+					stroke-width="2"
 				>
 					<path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
 				</svg>
@@ -126,7 +126,7 @@
 		</div>
 	</div>
 
-	<button
+	<!-- <button
 		on:click|stopPropagation={toggleDropdown}
 		class="w-full bg-white text-gray-800 text-center py-1 text-lg font-bold hover:bg-gray-50 focus:outline-none"
 	>
@@ -151,6 +151,6 @@
 				{/each}
 			</ul>
 		</div>
-	{/if}
+	{/if} -->
 </div>
 

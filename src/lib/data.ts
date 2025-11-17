@@ -2,6 +2,14 @@
 export type { HalleffectData } from './data/halleffect.rawdata';
 export { stats } from './data/halleffect.rawdata';
 
+// Export stats store and helper functions
+export { 
+	statsStore,
+	undoLastRow,
+	resetAllData,
+	addTestData
+} from './data/stats.store';
+
 // Export unit state stores
 export { 
 	voltageUnitStore, 

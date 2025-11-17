@@ -1,15 +1,17 @@
 <script lang="ts">
 	import { Pause, ArrowDownToLine, ChevronRight } from "lucide-svelte";
-	import { stats, voltageUnitStore, magneticFieldUnitStore, initialVoltageUnitStore, type UnitState } from "$lib/data.ts";
-	import { convert } from "$lib/data/units.data";
+	import { statsStore, undoLastRow, resetAllData, addTestData, voltageUnitStore, magneticFieldUnitStore, initialVoltageUnitStore, type UnitState } from "$lib/data.ts";
+	import { convert } from "$lib/data/units.data.ts";
 	import LineGraph from "$lib/components/LineChart.svelte";
 	import UnitSelector from "$lib/components/UnitSelector.svelte";
 
+	// Use reactive stats store - Svelte 5 auto-subscription
 	// Use data from stats
 	// currentReading: use last measurement
-	const currentReading = stats.length ? stats[stats.length - 1].voltage : 0;
-	const currentMagnetic = stats.length ? stats[stats.length - 1].magneticfield : 0;
-	const initialVoltage = stats.length ? stats[0].voltage : 0;
+	$: stats = $statsStore;
+	$: currentReading = stats.length ? stats[stats.length - 1].voltage : 0;
+	$: currentMagnetic = stats.length ? stats[stats.length - 1].magneticfield : 0;
+	$: initialVoltage = stats.length ? stats[0].voltage : 0;
 
 	// Use centralized unit state stores
 	let voltageUnitState: UnitState = { unit: 'V', prefix: '' };
@@ -93,7 +95,15 @@
 			<button class="p-2 text-blue-900">
 				<Pause class="w-5 h-5" />
 			</button>
-			<button class="p-2 text-blue-900">
+			<button 
+				class="p-2 text-blue-900"
+				on:click={() => {
+					// Add constant test data - easy to modify for future implementation
+					const TEST_MAGNETIC_FIELD = 2100;
+					const TEST_VOLTAGE = 0.8260;
+					addTestData(TEST_MAGNETIC_FIELD, TEST_VOLTAGE);
+				}}
+			>
 				<ArrowDownToLine class="w-5 h-5" />
 			</button>
 			<button
@@ -155,10 +165,16 @@
 
 		<!-- Action Buttons -->
 	<div class="flex gap-3">
-		<button class="flex-1 py-3 bg-blue-200/70 rounded-xl text-sm shadow-md">
+		<button 
+			class="flex-1 py-3 bg-blue-200/70 rounded-xl text-sm shadow-md"
+			on:click={() => undoLastRow()}
+		>
 			Undo
 		</button>
-		<button class="flex-1 py-3 bg-blue-200/70 rounded-xl text-sm shadow-md">
+		<button 
+			class="flex-1 py-3 bg-blue-200/70 rounded-xl text-sm shadow-md"
+			on:click={() => resetAllData()}
+		>
 			Reset
 		</button>
 	</div>

@@ -10,9 +10,12 @@
 		FileSpreadsheet
 	} from "lucide-svelte";
 
-	import { stats, voltageUnitStore, magneticFieldUnitStore, type UnitState } from "$lib/data.ts";
+	import { statsStore, voltageUnitStore, magneticFieldUnitStore, type UnitState } from "$lib/data.ts";
 	import LineGraph from "$lib/components/LineChart.svelte";
 	import DropdownMenu from "$lib/components/DropdownMenu.svelte";
+
+	// Use reactive stats store - Svelte 5 auto-subscription
+	$: stats = $statsStore;
 
 	interface MenuItem {
 		label: string;
@@ -25,7 +28,7 @@
 
 	// Save stats as CSV
 	const saveChartAsCsv = (): void => {
-		const dataToSave = stats;
+		const dataToSave = $statsStore;
 
 		if (!dataToSave || dataToSave.length === 0) {
 			console.warn("No data to save as CSV.");

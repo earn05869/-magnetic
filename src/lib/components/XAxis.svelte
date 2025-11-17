@@ -8,8 +8,7 @@
   export let label: string;
   export let isMobile: boolean = false;
   export let isSmall: boolean = false;
-  export let containerWidth: number;
-  export let unitSymbol: string = '';
+  export let unitSymbol: string = 'c';
   export let prefixSymbol: string = '';
 
   const numberOfTicks = (pixelsAvailable: number): number => {
