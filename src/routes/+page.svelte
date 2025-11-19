@@ -1,4 +1,6 @@
 <script>
+	import sensorImage from './7.jpg';
+	import experimentImage from './8.jpg';
 	import { Radio, BookOpen, SquarePen, BarChart3 } from "lucide-svelte";
 </script>
 
@@ -46,10 +48,27 @@
 			<p>วิเคราะห์ข้อมูล</p>
 		</a>
 	</div>
-	<div class="basis-1/4 w-full h-auto min-h-20 border-2 border-blue-300 rounded-2xl">
-		<p>sensor</p>
-	</div>
-	<div class="basis-1/4 w-full h-auto min-h-20 border-2 border-blue-300 rounded-2xl">
-		<p>experiment</p>
-	</div>
+<div class="basis-1/4 w-full h-auto min-h-20 border-2 border-blue-300 rounded-2xl overflow-hidden bg-white shadow-sm">
+    <img
+      src={sensorImage}
+      alt="Sensor Image"
+      class="w-full h-40 object-cover"
+    >
+    <div class="p-4">
+      <p class="font-bold text-lg">Sensor</p>
+      <p class="text-sm text-gray-600">รายละเอียดของเซนเซอร์...</p>
+    </div>
+  </div>
+
+  <div class="basis-1/4 w-full h-auto min-h-20 border-2 border-blue-300 rounded-2xl overflow-hidden bg-white shadow-sm">
+    <img
+      src={experimentImage}
+      alt="Experiment Image"
+      class="w-full h-40 object-cover"
+    >
+    <div class="p-4">
+      <p class="font-bold text-lg">Experiment</p>
+      <p class="text-sm text-gray-600">รายละเอียดการทดลอง...</p>
+    </div>
+  </div>
 </div>

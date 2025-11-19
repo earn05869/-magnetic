@@ -56,8 +56,8 @@
     </label>
 
     <div class="flex gap-2">
-        <button class="px-4 py-2 bg-blue-600 text-white rounded" on:click={startWithDefaults}>Start with defaults</button>
-        <button class="px-4 py-2 bg-yellow-500 text-white rounded" on:click={startFresh}>Start fresh</button>
-        <button class="px-4 py-2 bg-green-600 text-white rounded" on:click={loadSample}>Load sample data</button>
+        <button class="px-4 py-2 bg-blue-700/70 text-white rounded" on:click={startWithDefaults}>Start with defaults</button>
+        <button class="px-4 py-2 bg-blue-700/60 text-white rounded" on:click={startFresh}>Start fresh</button>
+        <button class="px-4 py-2 bg-blue-700/50 text-white rounded" on:click={loadSample}>Load sample data</button>
     </div>
 </div>

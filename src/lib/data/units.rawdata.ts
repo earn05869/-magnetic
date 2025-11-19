@@ -2,12 +2,9 @@
 
 // 1. Defines the raw scientific prefixes
 export const rawPrefixes = [
-	{ name: 'Giga', symbol: 'G', factor: 1e9 },
-	{ name: 'Mega', symbol: 'M', factor: 1e6 },
 	{ name: 'Kilo', symbol: 'k', factor: 1e3 },
 	{ name: 'None', symbol: '', factor: 1 }, // Base unit (no prefix)
 	{ name: 'Milli', symbol: 'm', factor: 1e-3 },
-	{ name: 'Micro', symbol: 'μ', factor: 1e-6 }
 ];
 
 // --- Unit Definitions ---

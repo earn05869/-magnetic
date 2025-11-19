@@ -7,25 +7,19 @@
 	import LineGraph from "$lib/components/LineChart.svelte";
 	import UnitSelector from "$lib/components/UnitSelector.svelte";
 
-	// Use reactive stats store - Svelte 5 auto-subscription
-	// Use data from stats
-	// currentReading: use last measurement
 	$: stats = $statsStore;
 	$: currentReading = stats.length ? stats[stats.length - 1].voltage : 0;
 	$: currentMagnetic = stats.length ? stats[stats.length - 1].magneticfield : 0;
 	$: initialVoltage = stats.length ? stats[0].voltage : 0;
 
-	// Use centralized unit state stores
 	let voltageUnitState: UnitState = { unit: 'V', prefix: '' };
 	let magneticFieldUnitState: UnitState = { unit: 'T', prefix: '' };
 	let initialVoltageUnitState: UnitState = { unit: 'V', prefix: '' };
 
-	// Subscribe to stores
 	voltageUnitStore.subscribe(value => voltageUnitState = value);
 	magneticFieldUnitStore.subscribe(value => magneticFieldUnitState = value);
 	initialVoltageUnitStore.subscribe(value => initialVoltageUnitState = value);
 
-	// Convert values for display
 	$: convertedCurrentReading = convert(
 		currentReading,
 		'Voltage',
@@ -80,15 +74,14 @@
 	});
 
 	// Generate unit labels for table headers
-	$: voltageUnitLabel = voltageUnitState.prefix 
+	$: voltageUnitLabel = voltageUnitState.prefix
 		? `Voltage (${voltageUnitState.prefix}${voltageUnitState.unit})`
 		: `Voltage (${voltageUnitState.unit})`;
-	
+
 	$: magneticUnitLabel = magneticFieldUnitState.prefix
 		? `Magnetic Field (${magneticFieldUnitState.prefix}${magneticFieldUnitState.unit})`
 		: `Magnetic Field (${magneticFieldUnitState.unit})`;
 
-// On client mount ensure an experiment exists, otherwise redirect to setup page
 onMount(() => {
 	const cfg = loadExperimentConfig();
 	if (!cfg) {
@@ -105,7 +98,7 @@ onMount(() => {
 			<button class="p-2 text-blue-900">
 				<Pause class="w-5 h-5" />
 			</button>
-			<button 
+			<button
 				class="p-2 text-blue-900"
 				on:click={() => {
 					// Add constant test data - easy to modify for future implementation
@@ -175,13 +168,13 @@ onMount(() => {
 
 		<!-- Action Buttons -->
 	<div class="flex gap-3">
-		<button 
+		<button
 			class="flex-1 py-3 bg-blue-200/70 rounded-xl text-sm shadow-md"
 			on:click={() => undoLastRow()}
 		>
 			Undo
 		</button>
-		<button 
+		<button
 			class="flex-1 py-3 bg-blue-200/70 rounded-xl text-sm shadow-md"
 			on:click={() => resetAllData()}
 		>
@@ -239,8 +232,8 @@ onMount(() => {
 		<div
 			class="h-full w-full bg-blue-50 rounded-lg flex items-center justify-center text-blue-300 text-sm"
 		>
-			<LineGraph 
-				{stats} 
+			<LineGraph
+				{stats}
 				xUnitState={magneticFieldUnitState}
 				yUnitState={voltageUnitState}
 			/>
