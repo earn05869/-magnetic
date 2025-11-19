@@ -2,23 +2,29 @@
 	import { Pause, ArrowDownToLine, ChevronRight } from "lucide-svelte";
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { statsStore, undoLastRow, resetAllData, addTestData, voltageUnitStore, magneticFieldUnitStore, initialVoltageUnitStore, type UnitState, loadExperimentConfig, clearAllData } from "$lib/data.ts";
+	import { statsStore, undoLastRow, resetAllData, addTestData, xAxisUnitStore, yAxisUnitStore, type UnitState, loadExperimentConfig, clearAllData, type ExperimentConfig } from "$lib/data.ts";
 	import { convert } from "$lib/data/units.data.ts";
 	import LineGraph from "$lib/components/LineChart.svelte";
 	import UnitSelector from "$lib/components/UnitSelector.svelte";
 
 	$: stats = $statsStore;
-	$: currentReading = stats.length ? stats[stats.length - 1].voltage : 0;
-	$: currentMagnetic = stats.length ? stats[stats.length - 1].magneticfield : 0;
-	$: initialVoltage = stats.length ? stats[0].voltage : 0;
+	
+let experimentConfig: ExperimentConfig | null = null;
 
-	let voltageUnitState: UnitState = { unit: 'V', prefix: '' };
-	let magneticFieldUnitState: UnitState = { unit: 'T', prefix: '' };
-	let initialVoltageUnitState: UnitState = { unit: 'V', prefix: '' };
+// Get axis names from config
+$: xAxisName = experimentConfig?.axis.x.fieldName || 'X Axis';
+$: yAxisName = experimentConfig?.axis.y.fieldName || 'Y Axis';
 
-	voltageUnitStore.subscribe(value => voltageUnitState = value);
-	magneticFieldUnitStore.subscribe(value => magneticFieldUnitState = value);
-	initialVoltageUnitStore.subscribe(value => initialVoltageUnitState = value);
+// Get current values from the last row
+$: currentXValue = stats.length ? stats[stats.length - 1][experimentConfig?.axis.x.fieldName as keyof typeof stats[0]] : 0;
+$: currentYValue = stats.length ? stats[stats.length - 1][experimentConfig?.axis.y.fieldName as keyof typeof stats[0]] : 0;
+$: initialXValue = stats.length ? stats[0][experimentConfig?.axis.x.fieldName as keyof typeof stats[0]] : 0;
+
+let xAxisUnitState: UnitState = { unit: 'V', prefix: '' };
+let yAxisUnitState: UnitState = { unit: 'G', prefix: '' };
+
+xAxisUnitStore.subscribe(value => xAxisUnitState = value);
+yAxisUnitStore.subscribe(value => yAxisUnitState = value);
 
 	$: convertedCurrentReading = convert(
 		currentReading,

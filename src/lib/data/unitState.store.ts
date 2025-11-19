@@ -1,14 +1,14 @@
 // src/lib/data/unitState.store.ts
 import { writable } from 'svelte/store';
+import { loadExperimentConfig } from './stats.store';
 
 export interface UnitState {
 	unit: string;
 	prefix: string;
 }
 
-const STORAGE_KEY_VOLTAGE = 'global_voltage_unit';
-const STORAGE_KEY_MAGNETIC = 'global_magnetic_unit';
-const STORAGE_KEY_INITIAL_VOLTAGE = 'global_initial_voltage_unit';
+const STORAGE_KEY_X_AXIS = 'global_x_axis_unit';
+const STORAGE_KEY_Y_AXIS = 'global_y_axis_unit';
 
 // Helper function to load from localStorage
 function loadFromStorage(key: string, defaultValue: UnitState): UnitState {
@@ -50,8 +50,35 @@ function createPersistedStore(key: string, defaultValue: UnitState) {
 	return store;
 }
 
-// Global unit state stores
-export const voltageUnitStore = createPersistedStore(STORAGE_KEY_VOLTAGE, { unit: 'V', prefix: '' });
-export const magneticFieldUnitStore = createPersistedStore(STORAGE_KEY_MAGNETIC, { unit: 'G', prefix: '' });
-export const initialVoltageUnitStore = createPersistedStore(STORAGE_KEY_INITIAL_VOLTAGE, { unit: 'V', prefix: '' });
+// Dynamic unit state stores based on current experiment config
+function createDynamicStore(key: string) {
+	const store = writable<UnitState>({ unit: 'V', prefix: '' });
+
+	// Initialize with stored value or default
+	if (typeof window !== 'undefined') {
+		const cfg = loadExperimentConfig();
+		if (cfg) {
+			let defaultValue: UnitState;
+			if (key === 'x') {
+				defaultValue = { unit: cfg.axis.x.unitSymbol, prefix: cfg.axis.x.prefixSymbol };
+			} else {
+				defaultValue = { unit: cfg.axis.y.unitSymbol, prefix: cfg.axis.y.prefixSymbol };
+			}
+			
+			const saved = loadFromStorage(`global_${key}_axis_unit`, defaultValue);
+			store.set(saved);
+		}
+	}
+
+	// Subscribe to changes and save to localStorage
+	store.subscribe((value) => {
+		saveToStorage(`global_${key}_axis_unit`, value);
+	});
+
+	return store;
+}
+
+// Global unit state stores for flexible axis
+export const xAxisUnitStore = createDynamicStore('x');
+export const yAxisUnitStore = createDynamicStore('y');
 

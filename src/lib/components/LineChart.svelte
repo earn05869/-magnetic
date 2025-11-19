@@ -1,6 +1,7 @@
 <script lang="ts">
 	import * as d3 from "d3";
 	import type { HalleffectData } from "$lib/data.ts";
+	import { loadExperimentConfig } from "$lib/data.ts";
 	import Line from "./Line.svelte";
 	import XAxis from "./XAxis.svelte";
 	import GridLines from "./GridLines.svelte";
@@ -15,6 +16,19 @@
 	let containerWidth = 100;
 	let isMobile = false;
 	let isSmall = false;
+
+	// Get axis field names from config
+	let xAxisFieldName = 'magneticfield';
+	let yAxisFieldName = 'voltage';
+
+	// Initialize axis field names when component mounts
+	$: {
+		const config = loadExperimentConfig();
+		if (config) {
+			xAxisFieldName = config.axis.x.fieldName;
+			yAxisFieldName = config.axis.y.fieldName;
+		}
+	}
 
 	// Responsive margins - more space for labels
 	$: isSmall = containerWidth < 480;
@@ -37,8 +51,8 @@
 	// Use incoming `stats` prop (already converted by parent if needed)
 	// `stats` is an array of HalleffectData and should be used directly below
 
-	const xAccessor = (d: HalleffectData): number => d.magneticfield;
-	const yAccessor = (d: HalleffectData): number => d.voltage;
+	const xAccessor = (d: HalleffectData): number => d[xAxisFieldName as keyof HalleffectData] as number;
+	const yAccessor = (d: HalleffectData): number => d[yAxisFieldName as keyof HalleffectData] as number;
 	const bisectX = d3.bisector(xAccessor).left;
 
 	$: xScale = d3

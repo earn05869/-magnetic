@@ -54,9 +54,21 @@ export function resetAllData() {
 	statsStore.set([]);
 }
 
-export function addTestData(magneticfield: number, voltage: number) {
+export function addTestData(xValue: number, yValue: number) {
 	statsStore.update(stats => {
-		return [...stats, { magneticfield, voltage }];
+		// Load config to get the field names
+		const config = loadExperimentConfig();
+		if (!config) {
+			// Fallback to default field names if no config
+			return [...stats, { magneticfield: xValue, voltage: yValue }];
+		}
+		
+		// Create object with dynamic field names
+		const dataPoint: any = {};
+		dataPoint[config.axis.x.fieldName] = xValue;
+		dataPoint[config.axis.y.fieldName] = yValue;
+		
+		return [...stats, dataPoint];
 	});
 }
 
